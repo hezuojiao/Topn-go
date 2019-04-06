@@ -68,9 +68,9 @@ func (h *minHeap) getNode(idx int) (urlPair, error) {
 }
 
 // Write heap node to file.
-func writeHeapToFile(h *minHeap, outFile string) error {
-	os.Remove(outFile)
-	file, err := os.OpenFile(outFile, os.O_WRONLY|os.O_CREATE|os.O_APPEND, os.ModePerm)
+func writeHeapToFile(h *minHeap, filename string) error {
+	os.Remove(filename)
+	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, os.ModePerm)
 	defer file.Close()
 	if err != nil {
 		return fmt.Errorf(err.Error())
@@ -117,6 +117,20 @@ func createTmpFiles(tmpPath string, hashSize int) error {
 func removeTmpFiles(tmpPath string) error {
 	if err := os.RemoveAll(tmpPath); err != nil {
 		return fmt.Errorf(err.Error())
+	}
+	return nil
+}
+
+func writeMapToFile(m map[string]int64, filename string) error {
+
+	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, os.ModePerm)
+	defer file.Close()
+	if err != nil {
+		return fmt.Errorf(err.Error())
+	}
+
+	for k, v := range m {
+		file.Write([]byte(k + "," + strconv.FormatInt(v, 10) + "\n"))
 	}
 	return nil
 }

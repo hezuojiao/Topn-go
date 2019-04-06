@@ -86,3 +86,17 @@ func TestTmpFilesOp(t *testing.T) {
 	t.Log("TmpFilesOP Pass!")
 
 }
+
+func TestWriteMapToFile(t *testing.T) {
+	tmpPath := "./tmp.txt"
+	m := make(map[string]int64)
+	for i := 0; i < 10; i++ {
+		m[strconv.Itoa(i)] = int64(i)
+		if i % 3 == 0 {
+			m[strconv.Itoa(i)]++
+		}
+	}
+	writeMapToFile(m, tmpPath)
+	writeMapToFile(m, tmpPath)
+	os.Remove(tmpPath)
+}

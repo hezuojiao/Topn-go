@@ -5,10 +5,10 @@ import (
 )
 
 
-const (
-	inFile  	= "./data/data_0.1g.txt"
-	outFile		= "./data/resTopn.txt"
-	tmpPath 	= "./data/tmp"
+var (
+	inFile  	= "/Users/hezj/pingcap/topn-go/data/data_0.01g.txt"
+	outFile		= "./resTopn.txt"
+	tmpPath 	= "./tmp"
 	hashSize	= 20
 	bufferSize 	= 100000
 	workerNum 	= 4
@@ -27,5 +27,5 @@ func TestDoMap(t *testing.T) {
 // Test topnRun function.
 func TestTopnRun(t *testing.T)  {
 	//doReduce(outFile, tmpPath, hashSize, workerNum, n)
-	TopnRun(inFile, outFile, tmpPath, hashSize, bufferSize, workerNum, n)
+	Run(inFile, outFile, tmpPath, hashSize, bufferSize, workerNum, n)
 }

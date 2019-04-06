@@ -28,7 +28,7 @@ def data_generator(path, size, n):
 
             # generate data randomly.
             while len(strings) < 10000000:
-                s = "".join(random.choice(string.ascii_letters + string.digits)
+                s = "https://google.com/" + "".join(random.choice(string.ascii_letters + string.digits)
                             for _ in range(random.randint(2, 100)))
                 strings += [s] * (int(random.uniform(0, 1) * 10000) + random.randint(0, 1000) + random.randint(0, 100))
 

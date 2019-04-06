@@ -87,7 +87,7 @@ func writeHeapToFile(h *minHeap, filename string) error {
 }
 
 
-// simple hash function copied from 6.824
+// Url hash function.
 func hashFunc(url string) int {
 	h := fnv.New32a()
 	h.Write([]byte(url))
@@ -121,6 +121,7 @@ func removeTmpFiles(tmpPath string) error {
 	return nil
 }
 
+// Append a map to file.
 func writeMapToFile(m map[string]int64, filename string) error {
 
 	file, err := os.OpenFile(filename, os.O_WRONLY|os.O_CREATE|os.O_APPEND, os.ModePerm)

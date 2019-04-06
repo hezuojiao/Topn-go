@@ -36,12 +36,13 @@ func Run(
 
 
 // Function to split a huge input file to small files that can be placed in memory.
-// The relation between reader and writers like producer and consumers.
+// We use a buffer map to store url pairs, and combine the url pair when they have
+// the same address. It is useful for program optimization.
 func doMap(
 	inFile string,  // Name of input data.
 	tmpPath string, // Path of temporary files.
 	hashSize int,   // Number of hash buckets.
-	bufferSize int, // Size of read buffer chan.
+	bufferSize int, // Size of buffer map.
 ){
 
 	// Create temporary files
@@ -50,9 +51,8 @@ func doMap(
 		return
 	}
 
-	// Read buffer
-	var bufferMap []map[string]int64
-	bufferMap = make([]map[string]int64, hashSize)
+	// Read buffer map
+	var bufferMap = make([]map[string]int64, hashSize)
 	for i := 0; i < hashSize; i++ {
 		bufferMap[i] = make(map[string]int64)
 	}
@@ -68,7 +68,6 @@ func doMap(
 	for {
 		line, _, err := buf.ReadLine()
 		if err == io.EOF {
-
 			break
 		} else if err != nil {
 			log.Fatal(err.Error())
@@ -86,7 +85,7 @@ func doMap(
 		}
 	}
 
-	// write
+	// write rest data in map.
 	for i := 0; i < hashSize; i++ {
 		writeMapToFile(bufferMap[i], tmpPath + "/" + strconv.Itoa(i) + ".url")
 	}
@@ -95,7 +94,7 @@ func doMap(
 
 
 // This function will create min heap for each temporary files.
-// We use heap to store the most n-th frequent url in each file.
+// We use min heap to store the most n-th frequent url in each file.
 // Then use another min heap to find the top-n answer, and write to file.
 func doReduce(
 	outFile string,  // Name of top-n answer file.
@@ -138,7 +137,6 @@ func doReduce(
 	}
 	writeHeapToFile(resHeap, outFile)
 
-	//debug.
 	// remove temporary files.
 	err := removeTmpFiles(tmpPath)
 	if err != nil {

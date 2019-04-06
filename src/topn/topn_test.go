@@ -16,16 +16,14 @@ var (
 )
 
 // Test doMap function.
-// To verify the correctness, we compare the line counts by
-// use shell commands "wc -l tmp/*.url" and "wc -l infile.txt".
 func TestDoMap(t *testing.T) {
 
 	doMap(inFile, tmpPath, hashSize, bufferSize)
 	//removeTmpFiles(tmpPath)
 }
 
-// Test topnRun function.
-func TestTopnRun(t *testing.T)  {
+// Test Run function.
+func TestRun(t *testing.T)  {
 	//doReduce(outFile, tmpPath, hashSize, workerNum, n)
 	Run(inFile, outFile, tmpPath, hashSize, bufferSize, workerNum, n)
 }

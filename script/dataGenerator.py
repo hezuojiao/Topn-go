@@ -65,7 +65,7 @@ def get_file_size(filename: str):
 # ==============================================
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Data generator')
-    parser.add_argument('--output_path', type=str, default='../data/', help='Output data path.')
+    parser.add_argument('--output_path', type=str, default='./data/', help='Output data path.')
     parser.add_argument('--size', type=float, default=1, help='Size of data [GB].')
     parser.add_argument('--n', type=int, default=100, help='Top n answers will be store.')
     args = vars(parser.parse_args())

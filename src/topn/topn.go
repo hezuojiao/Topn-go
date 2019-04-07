@@ -64,6 +64,12 @@ func doMap(
 		log.Fatal(err.Error())
 	}
 
+	var (
+		wg sync.WaitGroup
+		fileLock = make([]sync.Mutex, hashSize)
+	)
+
+
 	buf := bufio.NewReader(file)
 	for {
 		line, _, err := buf.ReadLine()
@@ -80,10 +86,17 @@ func doMap(
 		// If map'size reached buffer size, map'data will be written to temporary file,
 		// then clear the corresponding map.
 		if len(bufferMap[fileNo]) >= bufferSize {
-			writeMapToFile(bufferMap[fileNo],tmpPath + "/" + strconv.Itoa(fileNo) + ".url")
+			wg.Add(1)
+			go func(m map[string]int64, id int, wg *sync.WaitGroup) {
+				defer wg.Done()
+				fileLock[id].Lock()
+				writeMapToFile(m,tmpPath + "/" + strconv.Itoa(fileNo) + ".url")
+				fileLock[id].Unlock()
+			}(bufferMap[fileNo], fileNo, &wg)
 			bufferMap[fileNo] = make(map[string]int64)
 		}
 	}
+	wg.Wait()
 
 	// write rest data in map.
 	for i := 0; i < hashSize; i++ {

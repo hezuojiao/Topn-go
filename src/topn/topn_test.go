@@ -6,8 +6,8 @@ import (
 
 
 var (
-	inFile  	= "/Users/hezj/pingcap/topn-go/data/data_0.01g.txt"
-	outFile		= "./resTopn.txt"
+	inFile  	= "./data/data_0.01g.txt"
+	outFile		= "./data/resTopn.txt"
 	tmpPath 	= "./tmp"
 	hashSize	= 20
 	bufferSize 	= 100000

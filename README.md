@@ -39,7 +39,7 @@ operation.
 ### Step 1
 Firstly, you need to clone the repository and do some initialization work, by running the commands below.
 ```
-git clone https://github.com/hezuojiao/Topn-go
+git clone https://github.com/hezuojiao/Topn-go.git
 cd Topn-go
 export "GOPATH=$PWD"  # go needs $GOPATH to be set to the project's working directory
 mkdir "$GOPATH/data"  # path to store data.

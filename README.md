@@ -50,5 +50,6 @@ How to generate test data:
 make gendata
 ```
 
+NOTE: **go 1.12 is required**
 
 MIT License

@@ -1,7 +1,2 @@
 *.idea/
-*.pyc
-*.txt
-__pycache__/
-
-# OSX
 .DS_Store

@@ -26,8 +26,6 @@ For each read and write to the disk, the latency highly depends on the track loc
 consumers are writing url simultaneously. Every time the data is received, a write operation is triggered. Lots of time 
 is wasted in seeking tracks. So the efficiency is very low.
 
-The implementation can be find in [here](https://github.com/hezuojiao/Topn-go/tree/f0be0184b6b122ceac95c20593029b46f48d5e6a).
-
 ### Optimization
 Inspired by `Combiner` in map-reduce model, we can apply Combiner function that does partial merging of url before it 
 write to the disk. I maintain a buffer map to to keep url pairs, and combine the url pair if they have the same address.
@@ -36,40 +34,20 @@ Experimental results show that partial combining significantly reduces redundant
 operation.
 
 ## Run and Test
-### Step 1
-Firstly, you need to clone the repository and do some initialization work, by running the commands below.
+How to run topn-go:
 ```
-git clone https://github.com/hezuojiao/Topn-go.git
-cd Topn-go
-export "GOPATH=$PWD"  # go needs $GOPATH to be set to the project's working directory
-mkdir "$GOPATH/data"  # path to store data.
+make test_topn
 ```
 
-### Step 2 (optional)
-If you don't have data, you can generate it by running `script` we provided.
-```$xslt
-python3 script/dataGenerator.py --size 100 # file size[GB]
-```
-Then, you will get two files, `data_100.0g.txt` is url file and `ans_100.0g.txt` is a file corresponding top n answer.
 
-### Step 3
-Run the program.
-```$xslt
-go build "$GOPATH/src/main"
-./main data/data_100.0g.txt data/res.txt
+How to clean up all test data:
 ```
-if you want run `main` with your own data, you can use the commands below.
-```$xslt
-./main input_data_file_path output_data_file_path
+make clean
 ```
 
-Then you will see messages below.
-```$xslt
-Map phase start...
-Map phase done.
-Reduce phase start...
-Reduce phase done.
-Topn run elapsed : 8.602890588s
+How to generate test data:
+```
+make gendata
 ```
 
 
